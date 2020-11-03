@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    
     ////////////////////////////////////////////////////////////////////////////
     // TOKEN VALIDATION when the page is called.
     // - Token is either read from the local storage
@@ -28,26 +29,17 @@ export class LoginComponent implements OnInit {
     const token: Token = this.authService.checkForTokenAndValidate();
 
     if (token.isValid) {
-      localStorage.setItem('token', token.idToken);
       console.log('token is valid', token.message);
-      console.log('token', token);
-      // if (token.payload !== null) {
-      //   this.authService.setUserInformation({
-      //     forename: token.payload['given_name'],
-      //     surname: token.payload['family_name'],
-      //     email: token.payload['email'],
-      //     qnumber: token.payload['preferred_username'],
-      //     adgroup: token.payload['custom:group']
-      //   });
-      // }
+      console.log('token', token.idToken);
 
-      this.router.navigate(['/dashboard']);
+      // this.router.navigate(['/dashboard']);
+      this.router.navigate([{ outlets: { boardSelection: 'boards', primary: 'dashboard' } }]);
     } else {
       console.error(token.message);
     }
   }
 
-  login() {
+  login(): void {
     auth.authorize();
   }
 

@@ -9,6 +9,7 @@ import { TokenValidation } from './token-validation';
 export class AuthService {
 
   validator: TokenValidation;
+  token: Token = new Token();
 
   constructor(private router: Router) {
     this.validator = new TokenValidation('id_token');
@@ -22,11 +23,11 @@ export class AuthService {
   logout(state: RouterStateSnapshot): void {
     // localStorage.removeItem(USER_IDENTIFIER);
     localStorage.removeItem('token');
-
+    
     if (state !== null) {
-      this.router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
+      this.router.navigate([{ outlets: { boardSelection: null, primary: 'login' } }], {queryParams: {returnUrl: state.url}});
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate([{ outlets: { boardSelection: null, primary: 'login' } }]);
     }
   }
 
@@ -36,7 +37,8 @@ export class AuthService {
    * @return return a token instance containing the payload and the id token itself
    */
   checkForTokenAndValidate(): Token {
-    return this.validator.checkForTokenAndValidate();
+    this.token = this.validator.checkForTokenAndValidate();
+    return this.token;
   }
 
   /**
@@ -50,7 +52,21 @@ export class AuthService {
    *
    * @param token
    */
-  validateToken(token: string): Token {
-    return this.validator.validateToken(token);
+  validateToken(idtoken: string): Token {
+    return this.validator.validateToken(idtoken);
+  }
+
+  /**
+   * Returns the already parsed token
+   */
+  getToken(): Token {
+    return this.token;
+  }
+
+  /**
+   * Retrieves the idToken
+   */
+  getIdToken(): string {
+    return this.validator.getIdToken();
   }
 }

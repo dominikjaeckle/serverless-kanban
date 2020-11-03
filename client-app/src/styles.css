@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+    height: 100%;
+    overflow: auto;
+}
+
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif; 
+    font-weight: lighter;
+    font-size: 0.9em; 
+    background-image: linear-gradient(-45deg, #d1fdff, #fddb92);
+}
+
+mat-icon {
+  vertical-align: middle;
+}

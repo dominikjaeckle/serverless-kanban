@@ -1,0 +1,35 @@
+<div class="board-navbar">
+    <div class="bt-return-boards" (click)="returnToBoards()"><mat-icon>home</mat-icon></div>
+    <div style="margin: 0 10px;"><b>Board:</b> {{ selectedBoard.name }}</div>
+</div>
+
+<div id="board" cdkDropListGroup>
+    <div class="todo b-column">
+        <div class="bc-title">To Do</div>
+        <div cdkDropList [cdkDropListData]="todo" class="bc-list" (cdkDropListDropped)="drop($event)">
+            <div class="bc-box" *ngFor="let item of todo" cdkDrag>{{item.title}}</div>
+        </div>
+        <div class="bc-add-item">Add an item...</div>
+    </div>
+
+    <div class="inprogress b-column">
+        <div class="bc-title">Doing</div>
+        <div cdkDropList [cdkDropListData]="doing" class="bc-list" (cdkDropListDropped)="drop($event)">
+            <div class="bc-box" *ngFor="let item of doing" cdkDrag>{{item.title}}</div>
+        </div>
+    </div>
+
+    <div id="done" class="b-column">
+        <div class="bc-title">Done</div>
+        <div cdkDropList [cdkDropListData]="done" class="bc-list" (cdkDropListDropped)="drop($event)">
+            <div class="bc-box" *ngFor="let item of done" cdkDrag>{{item.title}}</div>
+        </div>
+    </div>
+
+    <div id="ignore" class="b-column">
+        <div class="bc-title">Ignore</div>
+        <div cdkDropList [cdkDropListData]="ignore" class="bc-list" (cdkDropListDropped)="drop($event)">
+            <div class="bc-box" *ngFor="let item of ignore" cdkDrag>{{item.title}}</div>
+        </div>
+    </div>
+</div>

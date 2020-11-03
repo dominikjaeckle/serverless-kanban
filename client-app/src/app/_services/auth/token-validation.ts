@@ -14,6 +14,17 @@ export class TokenValidation {
   constructor(private tokenIdentifier: string) {}
 
   /**
+   * For now, the general method to store and retrieve the id token.
+   */
+  getIdToken(): string {
+    return localStorage.getItem('token');
+  }
+
+  storeIdToken(idToken: string): void {
+    localStorage.setItem('token', idToken);
+  }
+
+  /**
    * Checks for a token in the url and in the local storage and validates
    *
    * @return return a token instance containing the payload and the id token itself
@@ -32,7 +43,7 @@ export class TokenValidation {
     // see if there is a token in local storage, if invalid in url
     if (!token.isValid) {
       // console.log('token in url not given or invalid, check for local storage.');
-      const localToken = localStorage.getItem('token');
+      const localToken = this.getIdToken();
       if (localToken !== null) {
         token = this.validateToken(localToken);
       }
@@ -81,6 +92,7 @@ export class TokenValidation {
 
     result.isValid = true;
     result.message = 'token is valid';
+    this.storeIdToken(result.idToken);
     return result;
   }
 

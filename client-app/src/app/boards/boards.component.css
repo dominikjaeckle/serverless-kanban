@@ -1,0 +1,58 @@
+#board-nav {
+    display: flex;
+    padding: 20px;
+}
+
+.bt-create-board {
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+.bt-create-board:hover {
+    background-color: black;
+}
+
+#kanban-boards {
+    display: grid;
+    /* grid-template-columns: repeat(5, calc(20% - 20px) [col-start]); */
+    column-gap: 10px;
+    row-gap: 10px;
+
+    padding: 20px;
+}
+
+.board-box {
+    background-color: rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 30px;
+
+    cursor: pointer;
+
+    min-width: 20%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.board-box:hover {
+    background-color: white;
+}
+
+.board-options {
+    display: flex;
+}
+
+.board-option {
+    color: grey;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.board-option:hover {
+    color: black;
+}
