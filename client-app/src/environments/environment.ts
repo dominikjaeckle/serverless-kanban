@@ -1,7 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { domain, clientID } from '../assets/config/auth_config.json';
+import { domain, clientID } from '../assets/config/auth-config.json';
 
 export const environment = {
   production: false,
@@ -11,7 +11,9 @@ export const environment = {
     redirectUri: 'http://localhost:4200/login',
     responseType: 'token id_token',
     scope: 'openid'
-  }
+  },
+
+  apiEndpoint: 'https://7xgl0s3ep6.execute-api.eu-west-1.amazonaws.com/dev',
 };
 
 /*

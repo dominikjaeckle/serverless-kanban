@@ -1,8 +1,9 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BoardService } from '../_services/board/board.service';
-import { Board } from './board';
+import { KanBanBoard } from '../_services/board/kanban-board';
+import { KanBanItem } from '../_services/board/kanban-item';
 
 @Component({
   selector: 'app-board',
@@ -12,14 +13,9 @@ import { Board } from './board';
 export class BoardComponent implements OnInit, OnDestroy {
 
   refreshService;
-  selectedBoard: Board;
+  selectedBoard: KanBanBoard;
 
-  todo = [
-    { title: 'Get to work' },
-    { title: 'Pick up groceries' },
-    { title: 'Go home' },
-    { title: 'Fall asleep' }
-  ];
+  todo = [];
   doing = [];
   done = [];
   ignore = [];
@@ -28,10 +24,27 @@ export class BoardComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private boardService: BoardService) { }
 
-  ngOnInit(): void {
-    this.refreshService = this.boardService.getSelectedBoard().subscribe((board => {
+  async ngOnInit(): Promise<void> {
+    this.refreshService = this.boardService.getSelectedBoard().subscribe(async (board: KanBanBoard) => {
+      if (!board) return;
+      if (board === null) return;
+
       this.selectedBoard = board;
-    }));
+
+      const items: KanBanItem[] = await this.boardService.getKanbanBoardItems(board.boardId);
+      for (const item of items) {
+        switch(item.category) {
+          case 'todo':
+            this.todo.push(item); break;
+          case 'doing':
+            this.doing.push(item); break;
+          case 'done':
+            this.done.push(item); break;
+          case 'ignore':
+            this.ignore.push(item); break;
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -42,7 +55,25 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.router.navigate(['./', { outlets: { boardSelection: 'boards' } }]);
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
+  // drag(event: CdkDragDrop<string>): void {
+  //   console.log(event);
+  // }
+
+  async drop(event: CdkDragDrop<object[]>): Promise<void> {
+
+    const droppedElement: KanBanItem = event.previousContainer.data[event.previousIndex] as KanBanItem;
+    const newList = event.container.id.split('-')[0].trim();
+    console.log(newList, droppedElement);
+    if (droppedElement.category !== newList) {
+      droppedElement.category = newList;
+      await this.boardService.updateKanbanBoardItem(droppedElement.boardId, droppedElement.itemId, {
+        category: droppedElement.category,
+        description: droppedElement.description,
+        imageUrl: droppedElement.imageUrl,
+        title: droppedElement.title
+      });
+    }
+
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -51,9 +82,5 @@ export class BoardComponent implements OnInit, OnDestroy {
         event.previousIndex,
         event.currentIndex);
     }
-    console.log("todo", this.todo);
-    console.log("doing", this.doing);
-    console.log("done", this.done);
-    console.log("ignore", this.ignore);
   }
 }

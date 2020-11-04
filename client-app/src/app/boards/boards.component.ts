@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 
 import * as d3 from 'd3';
-import { Board } from '../board/board';
+import { KanBanBoard } from '../_services/board/kanban-board';
 import { BoardService } from '../_services/board/board.service';
 
 @Component({
@@ -14,67 +14,60 @@ import { BoardService } from '../_services/board/board.service';
 })
 export class BoardsComponent implements OnInit {
 
-  boards: Board[] = [];
+  boards: KanBanBoard[] = [];
 
   constructor(public dialog: MatDialog,
               private router: Router,
               private boardService: BoardService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
-    // TODO: retrieve all boards from the backend.
+    // retrieve kan ban boards from the backend
+    this.boards = await this.boardService.getKanbanBoards();
 
-    for (let i = 0; i < 10; ++i) {
-      this.boards.push({
-        created: new Date().toISOString(),
-        id: String(i),
-        name: 'Random'
-      });
-    }
-
-    this.openBoard(this.boards[0]); // TODO: REMOVE ONLY FOR TESTING
+    // this.openBoard(this.boards[0]); // TODO: REMOVE ONLY FOR TESTING
   }
 
-  createBoard(): void {
+  async createBoard(): Promise<void> {
     const dialogRef = this.dialog.open(CreateBoardDialogComponent, {
       width: '400px',
       data: { boardName: 'test' }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
 
-      if (result) {
-        const parent = d3.select('#kanban-boards');
-        parent.append('div')
-        .attr('class', 'board-box')
-        .html(result);
-
-        // TODO: store in dynamo db database
-      }
-    });
+    const result = await dialogRef.afterClosed().toPromise();
+    if (result) {
+      const parent = d3.select('#kanban-boards');
+      const newBoard: KanBanBoard = await this.boardService.createKanbanBoard({
+        title: result
+      });
+      this.boards.push(newBoard);
+    }
   }
 
-  editBoard(board: Board): void {
+  async editBoard(board: KanBanBoard): Promise<void> {
     const dialogRef = this.dialog.open(CreateBoardDialogComponent, {
       width: '400px',
-      data: { boardName: board.name }
+      data: { boardName: board.title }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
 
-      if (result) {
-        board.name = result;
-
-        // TODO: update in dynamo db database
-      }
-    });
+    const result = await dialogRef.afterClosed().toPromise();
+    if (result) {
+      const updatedBoard: KanBanBoard = await this.boardService.updateKanbanBoard(board.boardId, {
+        title: result
+      });
+      board.title = updatedBoard.title;
+    }
   }
 
-  deleteBoard(board: Board): void {
-    // TODO: delete board and all included tasks
+  async deleteBoard(board: KanBanBoard): Promise<void> {
+    await this.boardService.deleteKanbanBoard(board.boardId);
+    const index = this.boards.indexOf(board);
+    if (index !== -1) {
+      this.boards.splice(index, 1);
+    }
   }
 
-  openBoard(board: Board): void {
+  openBoard(board: KanBanBoard): void {
     this.boardService.setSelectedBoard(board);
     this.router.navigate(['./', { outlets: { boardSelection: 'board' } }]);
   }
@@ -85,7 +78,7 @@ export interface BoardData {
 }
 
 @Component({
-  selector: 'create-board',
+  selector: 'app-create-board',
   templateUrl: 'create-board.html',
 })
 export class CreateBoardDialogComponent {

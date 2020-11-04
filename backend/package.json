@@ -7,7 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "source-map-support": "^0.5.10"
+    "aws-sdk": "^2.784.0",
+    "aws-xray-sdk": "^3.2.0",
+    "axios": "^0.21.0",
+    "jsonwebtoken": "^8.5.1",
+    "serverless-aws-documentation": "^1.1.0",
+    "serverless-iam-roles-per-function": "^2.0.2",
+    "serverless-plugin-tracing": "^2.0.0",
+    "serverless-reqvalidator-plugin": "^1.0.3",
+    "source-map-support": "^0.5.10",
+    "uuid": "^8.3.1",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.17",

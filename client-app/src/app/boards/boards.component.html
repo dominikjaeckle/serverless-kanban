@@ -3,7 +3,7 @@
 </div>
 <div id="kanban-boards">
     <div *ngFor="let bb of boards" class="board-box" (click)="openBoard(bb)">
-        <div class="board-title">{{ bb.name }}</div>
+        <div class="board-title">{{ bb.title }}</div>
         <div class="board-options">
             <div class="board-option" (click)="editBoard(bb); $event.stopPropagation()"><mat-icon>edit</mat-icon></div>
             <div class="board-option" (click)="deleteBoard(bb); $event.stopPropagation()"><mat-icon>delete</mat-icon></div>
