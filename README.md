@@ -12,10 +12,40 @@ The client app (/client-app) is written in angular and uses the angular material
 
 #### setting up the client-app
 
-- Auth0: in case you are using your own Auth0 authentication, please adapt the **domain:** and **clientId** variables in the file client-app/src/assets/config/auth-config.json
+- **Auth0**: in case you are using your own Auth0 authentication, please adapt the variables in the file client-app/src/assets/config/auth-config.json:
+
+```json
+ {
+   domain: ""
+   clientId: ""
+ } 
+```
+
+- Update the api endpoint url according to the 
+
+```json
+apiEndpoint: `https://$$api-gateway-id$$.execute-api.eu-west-1.amazonaws.com/dev`
+```
+
+
+
+### serverless backend
+
+to to the **serverless.yml** file in /backend and edit the following variables:
+
+```yaml
+stage: ${opt:stage, 'dev'} # the environmet you choose to deploy
+region: ${opt:region, 'eu-west-1'} # your region
+
+environment:
+  S3_BUCKET: # unique name of the bucket used for image upload
+	AUTHID: # authID of your application
+```
 
 
 
 ### short video of the running application
+
+you can find it in: **images/kanbanignore.mp4**
 
 <video src="images/kanbanignore.mp4"></video>
