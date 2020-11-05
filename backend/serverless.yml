@@ -34,7 +34,21 @@ provider:
     SIGNED_URL_EXPIRATION: 300
     AUTHID: dev-pwtgtc52 # id from auth0 for authentication
   
-  # TODO: custom: json schema validation
+  # json schema validation
+  custom:
+  documentation:
+    api:
+      info:
+        version: v1.0.0
+        title: KanBanIgnore API
+        description: Serverless application for KanBanBoards
+    models:
+      - name: TodoRequest
+        contentType: application/json
+        schema: ${file(models/create-todo-request.json)}
+      - name: UpdateTodoRequest
+        contentType: application/json
+        schema: ${file(models/update-todo-request.json)}
 
 functions:
   
@@ -217,9 +231,53 @@ functions:
           - "*"
 
   # delete item in board
+  DeleteKanBanBoardItem:
+    handler: src/lambda/http/deleteKanBanBoardItem.handler
+    events:
+      - http:
+          method: delete
+          path: boardItems/{boardId}/{itemId}
+          cors: true
+          authorizer: Auth
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.KANBANITEM_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.KANBANITEM_TABLE}/index/${self:provider.environment.KANBANITEM_INDEX}
+      - Effect: "Allow" # xray permissions (required)
+        Action:
+          - "xray:PutTraceSegments"
+          - "xray:PutTelemetryRecords"
+        Resource:
+          - "*"
 
   # generate upload url for image
-
+  GenerateImgUploadUrl:
+    handler: src/lambda/http/generateUploadUrl.handler
+    events:
+      - http:
+          method: post
+          path: boardItems/img/{itemId}
+          cors: true
+          authorizer: Auth
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:PutObject
+          - s3:GetObject
+        Resource: arn:aws:s3:::${self:provider.environment.S3_BUCKET}/*
+      - Effect: "Allow" # xray permissions (required)
+        Action:
+          - "xray:PutTraceSegments"
+          - "xray:PutTelemetryRecords"
+        Resource:
+          - "*"
 
 resources:
   Resources: 
@@ -284,5 +342,36 @@ resources:
               ProjectionType: ALL
 
     # todo bucket policy
+    BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyBucketPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.S3_BUCKET}/*'
+        Bucket: !Ref AttachmentsBucket
 
     # todo bucket
+    AttachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.S3_BUCKET}
+        CorsConfiguration:
+          CorsRules:
+            -
+              AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000

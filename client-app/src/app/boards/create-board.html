@@ -1,13 +1,12 @@
 <h3 mat-dialog-title>Edit KanBanIgnore board name:</h3>
 <div mat-dialog-content>
-  <mat-form-field appearance="outline">
-    <mat-label>Outline form field</mat-label>
-    <input matInput placeholder="" [(ngModel)]="data.boardName">
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>board name</mat-label>
+    <input matInput placeholder="" [(ngModel)]="data.title">
     <!-- <mat-hint>Hint</mat-hint> -->
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data.boardName" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="data.title" cdkFocusInitial>Ok</button>
 </div>

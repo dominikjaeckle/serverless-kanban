@@ -12,12 +12,17 @@ const XAWS = AWSXRay.captureAWS(AWS);
 const kanbanBoardItemTable = process.env.KANBANITEM_TABLE;
 const kanbanBoardItemIndex = process.env.KANBANITEM_INDEX;
 
+const s3Bucket = process.env.S3_BUCKET;
+const expiration = Number(process.env.SIGNED_URL_EXPIRATION);
+
 export class KanbanBoardItemAccess {
 
     private docClient: DocumentClient;
+    private s3Client;
 
     constructor() {
         this.docClient = new XAWS.DynamoDB.DocumentClient();
+        this.s3Client = new AWS.S3({ 'signatureVersion': 'v4' });
     }
 
     async getKanbanBoardItems(boardId: string): Promise<KanBanBoardItem[]> {
@@ -69,6 +74,24 @@ export class KanbanBoardItemAccess {
         return this.getBoardItem(boardId, itemId);;
     }
 
+    async deleteKanbanBoardItem(boardId: string, itemId: string): Promise<void> {
+        logger.info('dataLayer: Delete kanban board item ', itemId);
+        const item: KanBanBoardItem = await this.getBoardItem(boardId, itemId);
+
+        const createdAt = item.createdAt;
+        await this.docClient.delete({
+            TableName: kanbanBoardItemTable,
+            Key: {
+                boardId,
+                createdAt
+            },
+            ConditionExpression: 'itemId = :itemId',
+            ExpressionAttributeValues: {
+                ':itemId': itemId
+            }
+        }).promise();
+    }
+
     private async getBoardItem(boardId: string, itemId: string): Promise<KanBanBoardItem> {
         logger.info('dataLayer: for update, get kanban item' + itemId + 'for board' + boardId);
         const boardItem = await this.docClient.query({
@@ -89,5 +112,14 @@ export class KanbanBoardItemAccess {
             throw new Error();
         }
         return item as KanBanBoardItem;
+    }
+
+    getSignedImgUploadUrl(itemId: string): string {
+        logger.info('dataLayer: Requesting signed url from s3 client for kanban item:' + itemId);
+        return this.s3Client.getSignedUrl('putObject', {
+            Bucket: s3Bucket,
+            Key: itemId,
+            Expires: expiration
+        });
     }
 }

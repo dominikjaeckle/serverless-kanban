@@ -85,6 +85,18 @@ export class BoardService {
     return result.data.items;
   }
 
+  async createKanbanBoardItem(boardId: string, newItem: KanbanItemRequest): Promise<KanBanItem> {
+    console.log('Create kanban item on board', boardId);
+    const result = await Axios.post(`${env.apiEndpoint}/boardItems/${boardId}`, JSON.stringify(newItem), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.authService.getIdToken()}`
+      }
+    });
+    console.log('New item created:', result);
+    return result.data.item;
+  }
+
   async updateKanbanBoardItem(boardId: string, itemId, updatedItem: KanbanItemRequest): Promise<KanBanItem> {
     console.log('Update kanban item:', itemId);
     const result = await Axios.patch(`${env.apiEndpoint}/boardItems/${boardId}/${itemId}`, JSON.stringify(updatedItem), {
@@ -95,5 +107,30 @@ export class BoardService {
     });
     console.log('Updated item:', result.data);
     return result.data.item;
+  }
+
+  async deleteKanbanBoardItem(boardId: string, itemId: string): Promise<void> {
+    console.log('Delete kanban item:', itemId);
+    await Axios.delete(`${env.apiEndpoint}/boardItems/${boardId}/${itemId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.authService.getIdToken()}`
+      }
+    });
+    console.log('Deleted item:', itemId);
+  }
+
+  async getUploadUrl(itemId: string): Promise<string> {
+    const result = await Axios.post(`${env.apiEndpoint}/boardItems/img/${itemId}`, '', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.authService.getIdToken()}`
+      }
+    });
+    return result.data.uploadUrl;
+  }
+
+  async uploadFile(uploadUrl: string, file: Buffer): Promise<void> {
+    await Axios.put(uploadUrl, file);
   }
 }

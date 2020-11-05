@@ -1,0 +1,30 @@
+<h3 mat-dialog-title>Create KanBanIgnore item:</h3>
+<div mat-dialog-content>
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>category</mat-label>
+    <input matInput [disabled]="true" placeholder="" [(ngModel)]="data.category">
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>title</mat-label>
+    <input matInput placeholder="" [(ngModel)]="data.title">
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>description</mat-label>
+    <input matInput placeholder="" [(ngModel)]="data.description">
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <div class="file-uplad" style="width: calc(100% - 20px); border-radius: 5px; padding: 10px; border: 1px solid #d4d4d4; display: flex; flex-direction: column;">
+    <div style="color: grey; font-size: 0.8em;">attached image</div>
+    <input class="imageInput" placeholder="" type="file" (change)="onFileChanged($event)">
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

@@ -7,29 +7,57 @@
     <div class="todo b-column">
         <div class="bc-title">To Do</div>
         <div cdkDropList id="todo-list" [cdkDropListData]="todo" class="bc-list" (cdkDropListDropped)="drop($event)">
-            <div class="bc-box" *ngFor="let item of todo" cdkDrag>{{item.title}}</div>
+            <app-board-item 
+                class="bc-box" 
+                *ngFor="let item of todo" 
+                cdkDrag 
+                [data]="item" 
+                (edit)="onEdit($event)" 
+                (delete)="onDelete($event)">
+            </app-board-item>
         </div>
-        <div class="bc-add-item">Add an item...</div>
+        <div class="bc-add-item" (click)="createItem()">Add an item...</div>
     </div>
 
     <div class="inprogress b-column">
         <div class="bc-title">Doing</div>
         <div cdkDropList id="doing-list" [cdkDropListData]="doing" class="bc-list" (cdkDropListDropped)="drop($event)">
-            <div class="bc-box" *ngFor="let item of doing" cdkDrag>{{item.title}}</div>
+            <app-board-item 
+                class="bc-box" 
+                *ngFor="let item of doing" 
+                cdkDrag 
+                [data]="item" 
+                (edit)="onEdit($event)" 
+                (delete)="onDelete($event)">
+            </app-board-item>
         </div>
     </div>
 
     <div id="done" class="b-column">
         <div class="bc-title">Done</div>
         <div cdkDropList id="done-list" [cdkDropListData]="done" class="bc-list" (cdkDropListDropped)="drop($event)">
-            <div class="bc-box" *ngFor="let item of done" cdkDrag>{{item.title}}</div>
+            <app-board-item 
+                class="bc-box" 
+                *ngFor="let item of done" 
+                cdkDrag 
+                [data]="item" 
+                (edit)="onEdit($event)" 
+                (delete)="onDelete($event)">
+            </app-board-item>
         </div>
     </div>
 
     <div id="ignore" class="b-column">
         <div class="bc-title">Ignore</div>
         <div cdkDropList id="ignore-list" [cdkDropListData]="ignore" class="bc-list" (cdkDropListDropped)="drop($event)">
-            <div class="bc-box" *ngFor="let item of ignore" cdkDrag>{{item.title}}</div>
+            <app-board-item 
+                class="bc-box" 
+                *ngFor="let item of ignore" 
+                cdkDrag 
+                [data]="item" 
+                (edit)="onEdit($event)" 
+                (delete)="onDelete($event)">
+            </app-board-item>
         </div>
     </div>
 </div>

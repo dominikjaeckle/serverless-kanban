@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "23c3a271-cb7d-4e83-a4e1-bce5b446a777",
+		"name": "KanBanIgnore",
+		"description": "Postman collection for the KanBanIgnore tool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all kanban boards",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boards",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create kanban board",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{authToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"a new board\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boards",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete kanban board",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{authToken}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boards/446a74c2-7584-47a7-bb54-c3d2fc34d3f4",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boards",
+						"446a74c2-7584-47a7-bb54-c3d2fc34d3f4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update kanban board",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{authToken}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boards/",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all kanban board items",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{authToken}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boardItems/423ea97d-a8a3-4cb1-8379-dcff816071f8",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boardItems",
+						"423ea97d-a8a3-4cb1-8379-dcff816071f8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create kanban board item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{authToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"New Test Item\",\n    \"description\": \"nice new todo item - gotta do what I gotta do\",\n    \"category\": \"todo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boardItems/423ea97d-a8a3-4cb1-8379-dcff816071f8",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boardItems",
+						"423ea97d-a8a3-4cb1-8379-dcff816071f8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete kanban board item",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{authToken}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boardItems/423ea97d-a8a3-4cb1-8379-dcff816071f8/5536e744-8271-4871-8c0c-0824d661305a",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boardItems",
+						"423ea97d-a8a3-4cb1-8379-dcff816071f8",
+						"5536e744-8271-4871-8c0c-0824d661305a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update kanban board item",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{authToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"New Test Item\",\n    \"description\": \"nice new todo item - gotta do what I gotta do\",\n    \"category\": \"doing\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boardItems/423ea97d-a8a3-4cb1-8379-dcff816071f8/13e809b5-d72e-4635-b538-326d9900dd70",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boardItems",
+						"423ea97d-a8a3-4cb1-8379-dcff816071f8",
+						"13e809b5-d72e-4635-b538-326d9900dd70"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get upload url",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{authToken}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.eu-west-1.amazonaws.com/dev/boardItems/img/13e809b5-d72e-4635-b538-326d9900dd70",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"boardItems",
+						"img",
+						"13e809b5-d72e-4635-b538-326d9900dd70"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "40c20450-2b3f-4354-be9d-b798ad6f26b2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "72c603be-386b-4675-b98e-676dda3b8ece",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "7b639a96-c6d4-42bf-950d-3a06e7b9efd9",
+			"key": "apiId",
+			"value": ""
+		},
+		{
+			"id": "bb1ed116-c946-47c9-be78-1dc050f8be83",
+			"key": "authToken",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}

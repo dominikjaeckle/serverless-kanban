@@ -1,4 +1,3 @@
-import { APIGatewayProxyEvent } from "aws-lambda";
 import { createLogger } from "../utils/logger";
 import * as uuid from 'uuid';
 import { KanbanBoardItemAccess } from "../dataLayer/kanbanBoardItemAccess";
@@ -31,4 +30,14 @@ export async function createKanbanBoardItem(boardId: string, newBoardItem: Kanba
 export async function updateKanbanBoardItem(boardId: string, itemId: string, updatedItemReq: KanbanBoardItemRequest): Promise<KanBanBoardItem> {
     logger.info('businessLogic: update board item ' + itemId);
     return await kanbanBoardItemAccess.updateKanbanBoardItem(boardId, itemId, updatedItemReq);
+}
+
+export async function deleteKanbanBoardItem(boardId: string, itemId: string): Promise<void> {
+    logger.info('businessLogic: delete board item ' + itemId);
+    return await kanbanBoardItemAccess.deleteKanbanBoardItem(boardId, itemId);
+}
+
+export function getSignedImgUploadUrl(itemId: string): string {
+    logger.info('businessLogic: get signed url for' + itemId);
+    return kanbanBoardItemAccess.getSignedImgUploadUrl(itemId);
 }

@@ -1,0 +1,17 @@
+<div class="item-wrapper">
+    <div class="item-image">
+        <img [src]="getImgUrl()" onerror="this.src='../../../assets/images/kanbanignore.png';" width="100%">
+        <!-- <img src={{data.imageUrl}} onerror="this.src='../../../assets/images/kanbanignore.png';" width="100%"> -->
+    </div>
+    <div class="item-title">
+        {{ data.title }}
+    </div>
+    <div class="item-description">
+        {{ data.description }}
+    </div>
+    <div class="item-timestamp">
+        <div class="createdAt">{{ data.createdAt }}</div>
+        <div (click)="editItem()"><mat-icon class="settItem">edit</mat-icon></div>
+        <div (click)="deleteItem()"><mat-icon class="settItem">delete</mat-icon></div>
+    </div>
+</div>

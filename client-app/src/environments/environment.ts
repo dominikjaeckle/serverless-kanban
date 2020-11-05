@@ -13,7 +13,7 @@ export const environment = {
     scope: 'openid'
   },
 
-  apiEndpoint: 'https://7xgl0s3ep6.execute-api.eu-west-1.amazonaws.com/dev',
+  apiEndpoint: 'https://tp6iup6iac.execute-api.eu-west-1.amazonaws.com/dev',
 };
 
 /*

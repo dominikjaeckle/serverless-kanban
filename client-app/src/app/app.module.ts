@@ -16,7 +16,8 @@ import { AuthService } from './_services/auth/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BoardsComponent, CreateBoardDialogComponent } from './boards/boards.component';
-import { BoardComponent } from './board/board.component';
+import { BoardComponent, CreateItemDialogComponent } from './board/board.component';
+import { BoardItemComponent } from './board/board-item/board-item.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { BoardComponent } from './board/board.component';
     NavbarComponent,
     BoardsComponent,
     BoardComponent,
-    CreateBoardDialogComponent
+    CreateBoardDialogComponent,
+    CreateItemDialogComponent,
+    BoardItemComponent
   ],
   imports: [
     BrowserModule,

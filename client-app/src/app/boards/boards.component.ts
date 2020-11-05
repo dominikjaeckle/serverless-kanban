@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as d3 from 'd3';
 import { KanBanBoard } from '../_services/board/kanban-board';
 import { BoardService } from '../_services/board/board.service';
+import { KanbanBoardRequest } from '../_services/board/kanbanBoard-request';
 
 @Component({
   selector: 'app-boards',
@@ -25,13 +26,13 @@ export class BoardsComponent implements OnInit {
     // retrieve kan ban boards from the backend
     this.boards = await this.boardService.getKanbanBoards();
 
-    // this.openBoard(this.boards[0]); // TODO: REMOVE ONLY FOR TESTING
+    // this.openBoard(this.boards[1]); // TODO: REMOVE ONLY FOR TESTING
   }
 
   async createBoard(): Promise<void> {
     const dialogRef = this.dialog.open(CreateBoardDialogComponent, {
       width: '400px',
-      data: { boardName: 'test' }
+      data: { boardName: '' }
     });
 
     const result = await dialogRef.afterClosed().toPromise();
@@ -73,10 +74,6 @@ export class BoardsComponent implements OnInit {
   }
 }
 
-export interface BoardData {
-  boardName: string;
-}
-
 @Component({
   selector: 'app-create-board',
   templateUrl: 'create-board.html',
@@ -85,7 +82,7 @@ export class CreateBoardDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<CreateBoardDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: BoardData) { }
+    @Inject(MAT_DIALOG_DATA) public data: KanbanBoardRequest) { }
 
   onNoClick(): void {
     this.dialogRef.close();

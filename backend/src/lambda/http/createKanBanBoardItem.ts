@@ -2,6 +2,7 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import { createLogger } from '../../utils/logger'
 import { KanbanBoardItemRequest } from '../../requests/KanbanBoardItemRequest'; 
+import { createKanbanBoardItem } from '../../businessLogic/kanbanBoardItems';
 
 const logger = createLogger('createKanBanBoardItem')
 
