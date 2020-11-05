@@ -23,8 +23,8 @@ The client app (/client-app) is written in angular and uses the angular material
 
 - Update the api endpoint url according to the 
 
-```json
-apiEndpoint: `https://$$api-gateway-id$$.execute-api.eu-west-1.amazonaws.com/dev`
+```yaml
+apiEndpoint: 'https://$$api-gateway-id$$.execute-api.eu-west-1.amazonaws.com/dev'
 ```
 
 
@@ -38,8 +38,14 @@ stage: ${opt:stage, 'dev'} # the environmet you choose to deploy
 region: ${opt:region, 'eu-west-1'} # your region
 
 environment:
-  S3_BUCKET: # unique name of the bucket used for image upload
+	S3_BUCKET: # unique name of the bucket used for image upload
 	AUTHID: # authID of your application
+```
+
+deploy your serverless application:
+
+```bash
+sls deploy -v
 ```
 
 
