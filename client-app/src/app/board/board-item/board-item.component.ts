@@ -21,7 +21,7 @@ export class BoardItemComponent implements OnInit {
   ngOnInit(): void { }
 
   editItem(): void {
-    this.edit.emit(this.data, this);
+    this.edit.emit(this.data);
   }
 
   deleteItem(): void {

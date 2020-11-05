@@ -43,12 +43,18 @@ provider:
         title: KanBanIgnore API
         description: Serverless application for KanBanBoards
     models:
-      - name: TodoRequest
+      - name: BoardRequest
         contentType: application/json
-        schema: ${file(models/create-todo-request.json)}
-      - name: UpdateTodoRequest
+        schema: ${file(models/board-request.json)}
+      - name: UpdateBoardRequest
         contentType: application/json
-        schema: ${file(models/update-todo-request.json)}
+        schema: ${file(models/board-request.json)}
+      - name: ItemRequest
+        contentType: application/json
+        schema: ${file(models/item-request.json)}
+      - name: UpdateItemRequest
+        contentType: application/json
+        schema: ${file(models/item-request.json)}
 
 functions:
   
@@ -93,6 +99,12 @@ functions:
           path: boards
           cors: true
           authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create a new KanBan board
+            description: Create a new KanBan board
+            requestModels:
+              'application/json': BoardRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -115,6 +127,12 @@ functions:
           path: boards/{boardId}
           cors: true
           authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Update a KanBan board
+            description: Update a KanBan board
+            requestModels:
+              'application/json': UpdateBoardRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -185,6 +203,12 @@ functions:
           path: boardItems/{boardId}
           cors: true
           authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create a new KanBan item
+            description: Create a new KanBan item
+            requestModels:
+              'application/json': ItemRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -212,6 +236,12 @@ functions:
           path: boardItems/{boardId}/{itemId}
           cors: true
           authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Update a KanBan item
+            description: Update a KanBan item
+            requestModels:
+              'application/json': UpdateItemRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -292,7 +322,15 @@ resources:
           RestApiId:
             Ref: ApiGatewayRestApi
   
-    # todo request body validator
+    # request body validator
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false
 
     # dynamo db table for boards
     KanBanBoardsDynamoDBTable:
